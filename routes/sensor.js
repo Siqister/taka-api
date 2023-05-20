@@ -10,16 +10,16 @@ router.post('/', (req, res) => {
 	console.log('POST /update');
 
 	try{
-		const { pm25, pm10 } = req.body; //TODO timestamp
+		const { pm25, pm10, t } = req.body;
 
-		// log values in in-memory data store
+		// log values in in-memory data store, up to 10 readings
 		// TODO: in-memory data store is lost when dyno restarts
-		sensorData.push({ pm25, pm10 });
+		sensorData.push({ pm25, pm10, t });
 		if(sensorData.length > MAX_READINGS){
 			sensorData.shift();
 		}
 
-		res.status(200).end();
+		res.status(200).json({ status: 'OK' });
 
 	}catch(err){
 		console.log(err);
